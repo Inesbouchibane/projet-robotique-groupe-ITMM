@@ -3,7 +3,7 @@
  Les membres de groupes : 
  * BOUCHIBANE Ines : inesbouchibane.de@gmail.com
  * HADJ ALI Takoua : hadjalitakwa7@gmail.com
- * BERAH Meriem    : meriembrh6@gmail.com
+ * BERRAH Meriem    : meriembrh6@gmail.com
  * BAHAMID Mouna   : mounabahamid10@gmail.com
 
    
