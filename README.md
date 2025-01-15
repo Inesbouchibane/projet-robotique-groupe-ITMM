@@ -7,7 +7,7 @@
  * BAHAMID Mouna   : mounabahamid10@gmail.com
 
    
- > Template Trello pour Scrum/Agile : [https://trello.com/b/OjUJheXD/2i013-template](https://trello.com/b/OjUJheXD/2i013-template)
+ > Template Trello pour Scrum/Agile : [https://trello.com/b/OjUJheXD/2i013-template](https://trello.com/b/0Cys3vIn/organisation-de-projet-robotique)
 
 
 
