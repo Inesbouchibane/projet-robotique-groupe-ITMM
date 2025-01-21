@@ -6,5 +6,7 @@ Ce travail constitue une introduction à la programmation orientée objet, à la
 La fonction approche_mur déplace le robot automatiquement vers le mur le plus proche, qui correspond à l'un des axes limites de l'environnement (x=0, x=20, y=0, ou y=20)
 
 
+<img width="1440" alt="Capture d’écran 2025-01-21 à 21 31 27" src="https://github.com/user-attachments/assets/9d5df5d1-e931-4933-87b6-c638e95e8e05" />
+![GRAPH](https://github.com/user-attachments/assets/93f97d73-6dfb-42a5-8a2c-6ec2c6e990ee)
 
-![graphe](https://github.com/user-attachments/assets/0f84c041-3d1c-451d-af04-6e563d036e83)
+
