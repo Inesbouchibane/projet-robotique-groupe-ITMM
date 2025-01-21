@@ -3,3 +3,4 @@ Durant cette première semaine, et comme début de travail, nous avons suivi un 
 
 Ce travail constitue une introduction à la programmation orientée objet, à la gestion des données et à la visualisation graphique avec Python.
 
+![graphe](https://github.com/user-attachments/assets/0f84c041-3d1c-451d-af04-6e563d036e83)
