@@ -3,7 +3,8 @@ Durant cette première semaine, et comme début de travail, nous avons suivi un 
 
 Ce travail constitue une introduction à la programmation orientée objet, à la gestion des données et à la visualisation graphique avec Python.
 
-La fonction approche_mur déplace le robot automatiquement vers le mur le plus proche, qui correspond à l'un des axes limites de l'environnement (x=0, x=20, y=0, ou y=20)
+Nous avons créé la fonction approcher pour permettre au robot de se déplacer automatiquement vers le mur le plus proche. Pour cela, nous avons d'abord utilisé la fonction mur_le_plus_proche, qui calcule les distances entre le robot et les bords de l'espace (gauche, droite, haut, bas)(x=0, x=20, y=0, y=20). Cette fonction retourne ensuite la direction du mur le plus proche.
+À chaque étape, le robot avance d'un pas grace a la fonction deplacement dans la direction du mur le plus proche. Nous avons mis en place une vérification continue pour nous assurer que le robot s'arrête dès qu'il atteint le mur.
 
 
 
