@@ -1,5 +1,5 @@
  # projet-robotique-groupe-ITM3
-![71fYJdrZmCL](https://github.com/user-attachments/assets/0f32af98-405d-4237-92e2-e4cd0ab150c7)
+![71fYJdrZmCL-removebg-preview](https://github.com/user-attachments/assets/28251d16-a240-4e61-83e9-a8ac9b1dd85c)
 
  Les membres de groupes : 
  
