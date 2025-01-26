@@ -5,12 +5,11 @@ Cette semaine, l’objectif principal était de rattraper notre retard sur la co
 
 **Travail Réalisé :** 
 Durant cette deuxième semaine, nous avons tout d'abord suivi un tutorial expliquant le bon fonctionnement de github et cela en visionnant ces deux videos :  
-https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ
-https://youtu.be/eXF0epLeCgo?si=djAfLlvZShJKYNwv    
-
+https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ  
+https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ  
 Nous avons ensuite 
 
-Classe Robot :
+ Classe Robot :
 La classe Robot représente un robot autonome sur un canvas graphique.Elle gère ses propriétés principales, comme la position, la vitesse et l'orientation, 
 tout en offrant des méthodes pour déplacer, tourner et afficher graphiquement le robot.Cette classe est responsable de toutes les interactions liées au comportement individuel du robot.
 
