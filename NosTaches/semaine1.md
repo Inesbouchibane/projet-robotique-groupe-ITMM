@@ -5,6 +5,7 @@ Objectif de la Semaine :
 
 Cette semaine, notre groupe a démarré le projet de création d’un robot en 2D. Nous avons renforcé nos connaissances en programmation orientée objet (POO) et commencé à développer le robot pour qu’il puisse se déplacer dans un espace et interagir avec les murs.
 
+
 Travail Réalisé :
 
  Durant cette première semaine, et comme début de travail, nous avons suivi un tutoriel Python pour rafraîchir nos connaissances et avons réalisé quelques exercices pour les appliquer. Cette phase a duré environ 6 heures. Nous avons révisé les bases de Python et de la POO. Nous avons donc pour cela, consulté plusieurs tutoriels YouTube :
