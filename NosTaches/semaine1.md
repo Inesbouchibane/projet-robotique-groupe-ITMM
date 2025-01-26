@@ -1,7 +1,7 @@
 # Compte rendu  de la première semaine
 
 
-Objectif de la Semaine :  
+***Objectif de la Semaine*** :  
 Cette semaine, notre groupe a démarré le projet de création d’un robot en 2D. Nous avons renforcé nos connaissances en programmation orientée objet (POO) et commencé à développer le robot pour qu’il puisse se déplacer dans un espace et interagir avec les murs.
 
 
