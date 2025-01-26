@@ -1,5 +1,11 @@
 # Compte rendu de la semaine 2
 
+**Objectif de la Semaine :**  
+Cette semaine, l’objectif principal était de rattraper notre retard sur la compréhension et l’utilisation de GitHub, ainsi que de poursuivre le développement du robot en 2D. Cela impliquait de comprendre les concepts liés à la gestion de version et de finaliser les fonctionnalités principales permettant au robot de se déplacer et d’interagir avec son environnement.
+
+**Travail Réalisé :** 
+Durant cette deuxieme semaine, nous avons tout d'abord débutté 
+
 Classe Robot :
 La classe Robot représente un robot autonome sur un canvas graphique.Elle gère ses propriétés principales, comme la position, la vitesse et l'orientation, 
 tout en offrant des méthodes pour déplacer, tourner et afficher graphiquement le robot.Cette classe est responsable de toutes les interactions liées au comportement individuel du robot.
