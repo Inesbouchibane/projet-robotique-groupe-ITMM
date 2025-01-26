@@ -4,6 +4,11 @@ Elle gère ses propriétés principales, comme la position, la vitesse et l'orie
 tout en offrant des méthodes pour déplacer, tourner et afficher graphiquement le robot.
 Cette classe est responsable de toutes les interactions liées au comportement individuel du robot.
 
+Voici les fonctions de notre classe Robot :
+
+    Initialisation du Robot : Configure les attributs du robot, notamment sa position, sa vitesse, son orientation, et sa représentation visuelle sur le canvas.
+    Déplacement du Robot : Permet au robot de se déplacer (en avant ou en arrière) tout en respectant les limites de l’environnement et les obstacles.
+    Rotation du Robot : Ajuste l’orientation du robot et met à jour visuellement sa direction sur le canvas.
 
 Classe Environnement :
 La classe Environnement configure le cadre global de la simulation, 
