@@ -1,11 +1,11 @@
 # Compte rendu  de la première semaine
 
 
-***Objectif de la Semaine*** :  
+***Objectif de la Semaine :***  
 Cette semaine, notre groupe a démarré le projet de création d’un robot en 2D. Nous avons renforcé nos connaissances en programmation orientée objet (POO) et commencé à développer le robot pour qu’il puisse se déplacer dans un espace et interagir avec les murs.
 
 
-Travail Réalisé :  
+***Travail Réalisé :***  
 Durant cette première semaine, et comme début de travail, nous avons suivi un tutoriel Python pour rafraîchir nos connaissances et avons réalisé quelques exercices pour les appliquer. Cette phase a duré environ 6 heures. Nous avons révisé les bases de Python et de la POO. Nous avons donc pour cela, consulté plusieurs tutoriels YouTube :  
 Bases de Python : https://youtu.be/5EnpNI2iCZA?si=AIsmaDQHA1QJQaQv  
 Introduction à la POO : https://youtu.be/h6jciR8K43E?si=KSU9fj5RYPZJjPWL
@@ -15,7 +15,7 @@ Introduction à la POO : https://youtu.be/h6jciR8K43E?si=KSU9fj5RYPZJjPWL
  
 
 
-Prochaines Étapes :  
+***Prochaines Étapes :***
 Semaine 2 : Nous allons ajouter des fonctionnalités pour que le robot se déplace automatiquement vers le mur le plus proche et rendre ses déplacements plus intelligents.
 
 
