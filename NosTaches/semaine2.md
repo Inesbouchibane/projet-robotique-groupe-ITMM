@@ -5,7 +5,7 @@ Cette semaine, l’objectif principal était de rattraper notre retard sur la co
 
 **Travail Réalisé :** 
 Durant cette deuxième semaine, nous avons tout d'abord suivi un tutorial expliquant le bon fonctionnement de github et cela en visionnant ces deux videos :  
-https://youtu.be/X3KCX99I2pQ?si=Dtr7ri-Qr9NdLjwa  
+https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ
 https://youtu.be/eXF0epLeCgo?si=djAfLlvZShJKYNwv    
 
 Nous avons ensuite 
