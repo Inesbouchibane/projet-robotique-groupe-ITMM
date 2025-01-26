@@ -1,3 +1,5 @@
+# Compte rendu de la semaine 2
+
 Classe Robot :
 La classe Robot représente un robot autonome sur un canvas graphique.Elle gère ses propriétés principales, comme la position, la vitesse et l'orientation, 
 tout en offrant des méthodes pour déplacer, tourner et afficher graphiquement le robot.Cette classe est responsable de toutes les interactions liées au comportement individuel du robot.
