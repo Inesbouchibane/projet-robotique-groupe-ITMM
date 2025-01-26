@@ -15,8 +15,7 @@ Introduction à la POO : https://youtu.be/h6jciR8K43E?si=KSU9fj5RYPZJjPWL
  
 
 
-Prochaines Étapes : 
-
+Prochaines Étapes :  
 Semaine 2 : Nous allons ajouter des fonctionnalités pour que le robot se déplace automatiquement vers le mur le plus proche et rendre ses déplacements plus intelligents.
 
 
