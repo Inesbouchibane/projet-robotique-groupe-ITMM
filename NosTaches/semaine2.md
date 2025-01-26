@@ -4,9 +4,9 @@
 Cette semaine, l’objectif principal était de rattraper notre retard sur la compréhension et l’utilisation de GitHub, ainsi que de poursuivre le développement du robot en 2D. Cela impliquait de comprendre les concepts liés à la gestion de version et de finaliser les fonctionnalités principales permettant au robot de se déplacer et d’interagir avec son environnement.
 
 **Travail Réalisé :** 
-Durant cetthttps://youtu.be/X3KCX99I2pQ?si=Dtr7ri-Qr9NdLjwae deuxieme semaine, nous avons tout d'abord suivi un tutorial expliquant le bon fonctionnement de github et cela en visionnant ces deux videos :
-1/https://youtu.be/X3KCX99I2pQ?si=Dtr7ri-Qr9NdLjwa
-2/https://youtu.be/eXF0epLeCgo?si=djAfLlvZShJKYNwv
+Durant cette deuxième semaine, nous avons tout d'abord suivi un tutorial expliquant le bon fonctionnement de github et cela en visionnant ces deux videos :  
+https://youtu.be/X3KCX99I2pQ?si=Dtr7ri-Qr9NdLjwa  
+https://youtu.be/eXF0epLeCgo?si=djAfLlvZShJKYNwv
 Nous avons ensuite 
 Classe Robot :
 La classe Robot représente un robot autonome sur un canvas graphique.Elle gère ses propriétés principales, comme la position, la vitesse et l'orientation, 
