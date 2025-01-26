@@ -13,8 +13,8 @@ Elle gère les interactions entre le robot et son environnement, comme la détec
 Cette classe orchestre l'ensemble de la simulation en lançant et maintenant l'interface utilisateur.
 
 Voici les fonctions de notre classe Environnement :
-    * Configuration de l’Interface : Met en place le canvas graphique, lie les événements clavier pour le contrôle du robot, et initialise la simulation.
-    * Ajout d’Obstacles : Permet de placer des obstacles dans l’environnement et de les enregistrer pour vérifier les interactions.
-    * Détection de Collisions : Vérifie si le robot entre en conflit avec un obstacle lors de ses déplacements.
-    * Interaction avec les Murs : Calcule les distances aux murs, identifie le mur le plus proche et déplace le robot vers celui-ci sur demande.
+  * Configuration de l’Interface : Met en place le canvas graphique, lie les événements clavier pour le contrôle du robot, et initialise la simulation.
+  * Ajout d’Obstacles : Permet de placer des obstacles dans l’environnement et de les enregistrer pour vérifier les interactions.
+  * Détection de Collisions : Vérifie si le robot entre en conflit avec un obstacle lors de ses déplacements.
+  * Interaction avec les Murs : Calcule les distances aux murs, identifie le mur le plus proche et déplace le robot vers celui-ci sur demande.
 
