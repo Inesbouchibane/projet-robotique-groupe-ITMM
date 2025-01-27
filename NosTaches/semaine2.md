@@ -3,29 +3,37 @@
 **Objectif de la Semaine :**  
 Cette semaine, l’objectif principal était de rattraper notre retard sur la compréhension et l’utilisation de GitHub, ainsi que de poursuivre le développement du robot en 2D. Cela impliquait de comprendre les concepts liés à la gestion de version et de finaliser les fonctionnalités principales permettant au robot de se déplacer et d’interagir avec son environnement.
 
-**Travail Réalisé :** 
+**Travail Réalisé :**   
+
 Durant cette deuxième semaine, nous avons tout d'abord suivi un tutorial expliquant le bon fonctionnement de github et cela en visionnant ces deux videos :  
 https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ  
-https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ  
-Nous avons ensuite 
+https://youtu.be/X3KCX99I2pQ?si=ylpYr9W0juybpYoQ
 
- Classe Robot :
-La classe Robot représente un robot autonome sur un canvas graphique.Elle gère ses propriétés principales, comme la position, la vitesse et l'orientation, 
-tout en offrant des méthodes pour déplacer, tourner et afficher graphiquement le robot.Cette classe est responsable de toutes les interactions liées au comportement individuel du robot.
+Nous avons structuré notre  projet en deux classes principales : Robot et Environnement.
+La classe Robot: représente un robot autonome sur un canvas graphique , elle est le cœur de notre projet. Elle définit les propriétés et les actions du robot, comme expliqué ci-dessous :
+    Initialisation (__init__) : Le robot est placé sur un canvas à une position initiale (x, y), avec une vitesse définie. Un cercle bleu représente le robot, accompagné d'une ligne qui indique sa direction.
+    Déplacement (deplacer) : Cette méthode déplace le robot en fonction de coordonnées (dx, dy), tout en vérifiant qu’il reste à l’intérieur des limites de l’espace défini.
+    Avancer vers un mur (avancer_vers_mur) : Une fonctionnalité permettant au robot de calculer et d’avancer automatiquement vers le mur le plus proche à une vitesse donnée.
+    Rotation (tourner) : Le robot peut tourner à gauche ou à droite d’un angle défini (par défaut 10°). La ligne de direction est mise à jour pour refléter la nouvelle orientation  
 
-Voici les fonctions de notre classe Robot :
-   * Initialisation du Robot : Configure les attributs du robot, notamment sa position, sa vitesse, son orientation, et sa représentation visuelle sur le canvas.
-   * Déplacement du Robot : Permet au robot de se déplacer (en avant ou en arrière) tout en respectant les limites de l’environnement et les obstacles.
-   * Rotation du Robot : Ajuste l’orientation du robot et met à jour visuellement sa direction sur le canvas.
-     
-Classe Environnement :
-La classe Environnement configure le cadre global de la simulation, comprenant le canvas, les obstacles, et les événements clavier pour piloter le robot. 
-Elle gère les interactions entre le robot et son environnement, comme la détection de collisions et le calcul des distances vers les murs. 
-Cette classe orchestre l'ensemble de la simulation en lançant et maintenant l'interface utilisateur.
+La classe Environnement: Cette classe gère l’espace dans lequel le robot évolue :
+    Obstacles : Nous avons ajouté des obstacles fixes sous forme de rectangles rouges sur le canvas. Le robot vérifie les collisions avant chaque mouvement pour éviter de traverser ces obstacles.
+    Interaction utilisateur : Grâce aux événements clavier, l’utilisateur peut :
+        Déplacer le robot avec les flèches (Haut, Bas, Gauche, Droite).
+        Changer la vitesse du robot en appuyant sur la touche v.
+        Calculer et avancer vers le mur le plus proche avec la touche m.
+        Collision avec les obstacles : La méthode presence_collision détecte si le robot touche un obstacle. Si une collision est détectée, le robot s’arrête.
 
-Voici les fonctions de notre classe Environnement :
-  * Configuration de l’Interface : Met en place le canvas graphique, lie les événements clavier pour le contrôle du robot, et initialise la simulation.
-  * Ajout d’Obstacles : Permet de placer des obstacles dans l’environnement et de les enregistrer pour vérifier les interactions.
-  * Détection de Collisions : Vérifie si le robot entre en conflit avec un obstacle lors de ses déplacements.
-  * Interaction avec les Murs : Calcule les distances aux murs, identifie le mur le plus proche et déplace le robot vers celui-ci sur demande.
+Nous avons utilisé la bibliothèque Tkinter pour afficher graphiquement :
 
+    Le robot, représenté par un cercle bleu avec une ligne indiquant sa direction.
+    Les obstacles, représentés par des rectangles rouges.
+    Les limites de l’espace, définies par un canvas de 800x600 pixels.    
+
+**Exemple de Scénario d'Utilisation:**
+    L'utilisateur peut initialiser le robot à une position de départ centrale.
+    En appuyant sur les touches fléchées, il peut déplacer le robot dans différentes directions.
+    En appuyant sur m, il peut demander au robot de calculer et de se diriger automatiquement vers le mur le plus proche.
+    En appuyant sur v, il peut ajuster la vitesse du robot à tout moment.
+   
+ 
