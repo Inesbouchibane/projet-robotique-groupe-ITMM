@@ -8,6 +8,7 @@ class Graphics:
         pygame.display.set_caption("Simulation de Robot")
         self.clock = pygame.time.Clock()
         self.env = environnement
+        self.trajectoir=[]
 
     def dessiner_obstacles(self):
         for obstacle in self.env.obstacles:
@@ -33,6 +34,10 @@ class Graphics:
         pointe_x = robot.x + cos_a * robot.longueur / 2
         pointe_y = robot.y - sin_a * robot.longueur / 2
         pygame.draw.line(self.ecran, VERT, (robot.x, robot.y), (pointe_x, pointe_y), 3)
+    
+    def dessiner_trajectoire(self):
+        if len(self.trajectoire) > 1:
+            pygame.draw.lines(self.ecran, ROUGE, False, self.trajectoire, 2)
 
     def boucle_principale(self):
         from controleur import gerer_evenements
@@ -51,6 +56,8 @@ class Graphics:
                 if not self.env.detecter_collision(new_x + dx, new_y + dy):
                     self.env.robot.x += dx
                     self.env.robot.y += dy
+                self.trajectoire.append((self.env.robot.x, self.env.robot.y))
+            self.dessiner_trajectoire()
 
             self.ecran.fill((255, 255, 255))
             self.dessiner_obstacles()
