@@ -20,6 +20,7 @@ class Robot:
         self.en_mouvement = True
 
     def deplacer(self):
+    # déplacer en fonction des vitesses des roues, avec la prise en compte des angles et des directions.
         if not self.en_mouvement:
             return
         
