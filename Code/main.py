@@ -1,10 +1,11 @@
-from modele import Environnement
-from graphisme import Graphics
+from controleur import Controleur
 
-if __name__ == "__main__":
+def main():
     vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
     vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
+    
+    controleur = Controleur(vitesse_gauche, vitesse_droite)
+    controleur.demarrer_simulation()
 
-    env = Environnement(vitesse_gauche, vitesse_droite)
-    graphics = Graphics(env)
-    graphics.boucle_principale()
+if __name__ == "__main__":
+    main()

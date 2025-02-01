@@ -1,96 +1,113 @@
 import pygame
 import math
-from modele import LARGEUR, HAUTEUR, BLEU, ROUGE, VERT
 
-NOIR = (0,0,0)
+# Couleurs
+BLANC = (255, 255, 255)
+NOIR = (0, 0, 0)
+BLEU = (0, 0, 255)
+ROUGE = (255, 0, 0)
+VERT = (0, 255, 0)
 
-class Graphics:
-   def __init__(self, environnement):
-        self.ecran = pygame.display.set_mode((LARGEUR, HAUTEUR))
-        pygame.display.set_caption("Simulation de Robot")
-        self.clock = pygame.time.Clock()
-        self.env = environnement
+class Robot:
+    def __init__(self, x, y, vitesse_gauche, vitesse_droite):
+        self.x = x
+        self.y = y
+        self.vitesse_gauche = vitesse_gauche
+        self.vitesse_droite = vitesse_droite
+        self.angle = 0
+        self.longueur = 40
+        self.largeur = 20
+        self.en_mouvement = True
 
-        self.trajectoir=[]
-
-    def dessiner_obstacles(self):
-        self.trajectoire=[]
+    def deplacer(self):
+        if not self.en_mouvement:
+            return
         
-   def dessiner_obstacles(self):
-        for obstacle in self.env.obstacles:
-            pygame.draw.rect(self.ecran, ROUGE, obstacle)
+        vitesse_moyenne = (self.vitesse_gauche + self.vitesse_droite) / 2
+        delta_angle = (self.vitesse_droite - self.vitesse_gauche) / self.largeur * 10
+        
+        self.angle += delta_angle
+        self.angle %= 360
+        
+        dx = vitesse_moyenne * math.cos(math.radians(self.angle))
+        dy = -vitesse_moyenne * math.sin(math.radians(self.angle))
+        
+        self.x = max(self.largeur, min(800 - self.largeur, self.x + dx))
+        self.y = max(self.longueur, min(600 - self.longueur, self.y + dy))
 
-
-   def dessiner_robot(self):
-        robot = self.env.robot
-        angle_rad = math.radians(robot.angle)
+    def dessiner(self, ecran):
+        angle_rad = math.radians(self.angle)
         cos_a, sin_a = math.cos(angle_rad), math.sin(angle_rad)
 
         points = [
-            (robot.x + cos_a * robot.longueur / 2 - sin_a * robot.largeur / 2,
-             robot.y - sin_a * robot.longueur / 2 - cos_a * robot.largeur / 2),
-            (robot.x - cos_a * robot.longueur / 2 - sin_a * robot.largeur / 2,
-             robot.y + sin_a * robot.longueur / 2 - cos_a * robot.largeur / 2),
-            (robot.x - cos_a * robot.longueur / 2 + sin_a * robot.largeur / 2,
-             robot.y + sin_a * robot.longueur / 2 + cos_a * robot.largeur / 2),
-            (robot.x + cos_a * robot.longueur / 2 + sin_a * robot.largeur / 2,
-             robot.y - sin_a * robot.longueur / 2 + cos_a * robot.largeur / 2),
+            (self.x + cos_a * self.longueur / 2 - sin_a * self.largeur / 2,
+             self.y - sin_a * self.longueur / 2 - cos_a * self.largeur / 2),
+            (self.x - cos_a * self.longueur / 2 - sin_a * self.largeur / 2,
+             self.y + sin_a * self.longueur / 2 - cos_a * self.largeur / 2),
+            (self.x - cos_a * self.longueur / 2 + sin_a * self.largeur / 2,
+             self.y + sin_a * self.longueur / 2 + cos_a * self.largeur / 2),
+            (self.x + cos_a * self.longueur / 2 + sin_a * self.largeur / 2,
+             self.y - sin_a * self.longueur / 2 + cos_a * self.largeur / 2),
         ]
 
-        pygame.draw.polygon(self.ecran, BLEU, points)
-        pointe_x = robot.x + cos_a * robot.longueur / 2
-        pointe_y = robot.y - sin_a * robot.longueur / 2
-        pygame.draw.line(self.ecran, VERT, (robot.x, robot.y), (pointe_x, pointe_y), 3)
+        pygame.draw.polygon(ecran, BLEU, points)
+        pointe_x = self.x + cos_a * self.longueur / 2
+        pointe_y = self.y - sin_a * self.longueur / 2
+        pygame.draw.line(ecran, VERT, (self.x, self.y), (pointe_x, pointe_y), 3)
 
-    
-    def dessiner_trajectoire(self):
-        if len(self.trajectoire) > 1:
-            pygame.draw.lines(self.ecran,NOIR, False, self.trajectoire, 2)
+class Environnement:
+    def __init__(self, vitesse_gauche, vitesse_droite):
+        self.ecran = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Simulation de Robot")
+        self.clock = pygame.time.Clock()
+        self.robot = Robot(400, 300, vitesse_gauche, vitesse_droite)
+        self.obstacles = [pygame.Rect(200, 200, 100, 100), pygame.Rect(400, 100, 50, 50)]
 
-   
+    def dessiner_obstacles(self):
+        for obstacle in self.obstacles:
+            pygame.draw.rect(self.ecran, ROUGE, obstacle)
 
+    def detecter_collision(self, x, y):
+        robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur, self.robot.largeur * 2, self.robot.longueur * 2)
+        for obstacle in self.obstacles:
+            if robot_rect.colliderect(obstacle):
+                return True
+        return False
 
-
-   def boucle_principale(self):
-        from controleur import gerer_evenements
-
+    def boucle_principale(self):
         running = True
         while running:
-            running = gerer_evenements(self.env.robot)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s:
+                        self.robot.en_mouvement = False
+                    elif event.key == pygame.K_d:
+                        self.robot.vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
+                        self.robot.vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
+                        self.robot.en_mouvement = True
             
-            if self.env.robot.en_mouvement:
-                new_x = self.env.robot.x
-                new_y = self.env.robot.y
+            if self.robot.en_mouvement:
+                new_x = self.robot.x
+                new_y = self.robot.y
+                vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+                delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
                 
-                dx = (self.env.robot.vitesse_gauche + self.env.robot.vitesse_droite) / 2 * math.cos(math.radians(self.env.robot.angle))
-                dy = -(self.env.robot.vitesse_gauche + self.env.robot.vitesse_droite) / 2 * math.sin(math.radians(self.env.robot.angle))
-
-                if not self.env.detecter_collision(new_x + dx, new_y + dy):
-                    self.env.robot.x += dx
-                    self.env.robot.y += dy
-
-                self.trajectoire.append((self.env.robot.x, self.env.robot.y))
-
-                    # Ajouter la position actuelle du robot à la trajectoire
-                self.trajectoire.append((self.env.robot.x, self.env.robot.y))
-         
-            # Dessiner la trajectoire
-
-            self.dessiner_trajectoire()
-
-            self.ecran.fill((255, 255, 255))
+                self.robot.angle += delta_angle
+                self.robot.angle %= 360
+                
+                dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+                dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+                
+                if not self.detecter_collision(new_x + dx, new_y + dy):
+                    self.robot.x = max(self.robot.largeur, min(800 - self.robot.largeur, new_x + dx))
+                    self.robot.y = max(self.robot.longueur, min(600 - self.robot.longueur, new_y + dy))
+            
+            self.ecran.fill(BLANC)
             self.dessiner_obstacles()
-            self.dessiner_robot()
+            self.robot.dessiner(self.ecran)
             pygame.display.flip()
             self.clock.tick(30)
 
         pygame.quit()
-
-     
-
-   def detecter_collision(self, x, y):
-       robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur,self.robot.largeur * 2, self.robot.longueur * 2)
-       for obstacle in self.obstacles:
-           if robot_rect.colliderect(obstacle):
-              return True
-       return False
