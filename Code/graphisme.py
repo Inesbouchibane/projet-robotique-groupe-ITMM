@@ -45,12 +45,10 @@ class Graphics:
     
     def dessiner_trajectoire(self):
         if len(self.trajectoire) > 1:
-            pygame.draw.lines(self.ecran, ROUGE, False, self.trajectoire, 2)
+            pygame.draw.lines(self.ecran,NOIR, False, self.trajectoire, 2)
 
    
-   def dessiner_trajectoire(self):
-    if len(self.trajectoire) > 1:
-        pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
+
 
 
    def boucle_principale(self):
