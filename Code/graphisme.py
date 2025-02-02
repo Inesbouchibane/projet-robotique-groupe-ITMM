@@ -57,6 +57,15 @@ class Robot:
         pointe_y = self.y - sin_a * self.longueur / 2
         pygame.draw.line(ecran, VERT, (self.x, self.y), (pointe_x, pointe_y), 3)
 
+  def reinitialiser(self):
+        """Remet le robot à son état initial."""
+        self.x = 400  # Position initiale X
+        self.y = 300  # Position initiale Y
+        self.vitesse_gauche = 0 
+        self.vitesse_droite = 0  
+        self.angle = 0 
+        self.en_mouvement = True 
+
 class Environnement:
     def __init__(self, vitesse_gauche, vitesse_droite):
         self.ecran = pygame.display.set_mode((800, 600))
@@ -75,7 +84,11 @@ class Environnement:
             if robot_rect.colliderect(obstacle):
                 return True
         return False
-
+    
+    def reinitialiser_robot(self):
+        """Réinitialiser le robot dans l'environnement"""
+        self.robot.reinitialiser()
+    
     def boucle_principale(self):
         running = True
         while running:
@@ -89,7 +102,9 @@ class Environnement:
                         self.robot.vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
                         self.robot.vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
                         self.robot.en_mouvement = True
-            
+                     elif event.key == pygame.K_r: 
+                        self.reinitialiser_robot()
+
             if self.robot.en_mouvement:
                 new_x = self.robot.x
                 new_y = self.robot.y
