@@ -14,3 +14,4 @@ class Controleur:
         self.vitesse_droite = vitesse_droite
         self.env.robot.vitesse_gauche = vitesse_gauche
         self.env.robot.vitesse_droite = vitesse_droite
+
