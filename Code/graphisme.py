@@ -37,6 +37,7 @@ class Robot:
         self.y = max(self.longueur, min(600 - self.longueur, self.y + dy))
 
     def dessiner(self, ecran):
+ 
         angle_rad = math.radians(self.angle)
         cos_a, sin_a = math.cos(angle_rad), math.sin(angle_rad)
 
