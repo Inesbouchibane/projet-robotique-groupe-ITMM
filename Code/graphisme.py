@@ -54,6 +54,11 @@ class Robot:
 
 class Environnement:
     def __init__(self, vitesse_gauche, vitesse_droite):
+        self.ecran = pygame.display.set_mode((LARGEUR, HAUTEUR))
+        pygame.display.set_caption("Simulation de Robot")
+        self.clock = pygame.time.Clock()
+        self.robot = Robot(LARGEUR / 2, HAUTEUR / 2, vitesse_gauche, vitesse_droite)
+        self.obstacles = [pygame.Rect(200, 200, 100, 100), pygame.Rect(400, 100, 50, 50)]
 
 #-----------------------------------meriem-----------------------------------------------------------------------------------------
     def dessiner_obstacles(self): 
