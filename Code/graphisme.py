@@ -75,7 +75,13 @@ class Environnement:
 
     #meriem -----------------------------
     def reinitialiser_robot(self):
-     
+     """Réinitialise la position et la vitesse du robot."""
+        self.robot.x = LARGEUR / 2
+        self.robot.y = HAUTEUR / 2
+        self.robot.angle = 0
+        self.robot.vitesse_gauche = 0
+        self.robot.vitesse_droite = 0
+        self.robot.en_mouvement = False
     
 
         pygame.quit()
