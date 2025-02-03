@@ -65,7 +65,11 @@ class Environnement:
 
 #------------------------takoua----------------------------------------------------------------------------------------------------
     def detecter_collision(self, x, y):
-<<<<<<< HEAD
+      robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur, self.robot.largeur * 2, self.robot.longueur * 2)
+        for obstacle in self.obstacles:
+            if robot_rect.colliderect(obstacle):
+                return True
+        return False
 
 #-------------------------------------------------inesssssssssssssssssssssssssssss--meriem-------------------------------------------------------------------------
 
