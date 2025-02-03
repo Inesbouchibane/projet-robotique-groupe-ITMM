@@ -11,13 +11,19 @@ NOIR = (0, 0, 0)
 BLEU = (0, 0, 255)
 ROUGE = (255, 0, 0)
 VERT = (0, 255, 0)
-#-----------------------------------mouna -----------------------------------------------------------------------------------------
+
 class Robot:
+   def __init__(self, x, y, vitesse_gauche, vitesse_droite):
+        self.x = x
+        self.y = y
+        self.vitesse_gauche = vitesse_gauche
+        self.vitesse_droite = vitesse_droite
+        self.angle = 0
+        self.longueur = 40
+        self.largeur = 20
+        self.en_mouvement = True
+        self.trajectoire=[]
 
-
-
-
-#---------------------------------------------------------------------------------------------------------------------------
     def dessiner(self, ecran):
  
         angle_rad = math.radians(self.angle)
