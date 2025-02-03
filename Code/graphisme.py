@@ -23,6 +23,23 @@ class Robot:
         self.largeur = 20
         self.en_mouvement = True
         self.trajectoire=[]
+    
+    def deplacer(self):
+        if not self.en_mouvement:
+            return
+
+        vitesse_moyenne = (self.vitesse_gauche + self.vitesse_droite) / 2
+        delta_angle = (self.vitesse_droite - self.vitesse_gauche) / self.largeur * 10
+        
+        self.angle += delta_angle
+        self.angle %= 360
+        
+        dx = vitesse_moyenne * math.cos(math.radians(self.angle))
+        dy = -vitesse_moyenne * math.sin(math.radians(self.angle))
+        
+        # Limiter la position aux bords de la fenêtre
+        self.x = max(self.largeur, min(LARGEUR - self.largeur, self.x + dx))
+        self.y = max(self.longueur, min(HAUTEUR - self.longueur, self.y + dy))
 
     def dessiner(self, ecran):
  
