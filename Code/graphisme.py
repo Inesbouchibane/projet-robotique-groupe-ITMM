@@ -134,6 +134,6 @@ class Environnement:
 
         #----------------------------------------------------------------------------------------------------------------------------
 
-    def dessiner_trajectoire(self): # mohamed et mouna 
-         #----------------------------------------------------------------------------------------------------------------------------
-
+    def dessiner_trajectoire(self):   
+        if len(self.trajectoire) > 1:
+            pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
