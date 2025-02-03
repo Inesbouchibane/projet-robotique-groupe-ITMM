@@ -14,11 +14,8 @@ VERT = (0, 255, 0)
 #-----------------------------------mouna -----------------------------------------------------------------------------------------
 class Robot:
 
-#----------------------------------ines------------------------------------------------------------------------------------------
+
     def deplacer(self):
-<<<<<<< HEAD
-=======
-    # déplacer en fonction des vitesses des roues, avec la prise en compte des angles et des directions.
         if not self.en_mouvement:
             return
         
@@ -31,9 +28,9 @@ class Robot:
         dx = vitesse_moyenne * math.cos(math.radians(self.angle))
         dy = -vitesse_moyenne * math.sin(math.radians(self.angle))
         
-        self.x = max(self.largeur, min(800 - self.largeur, self.x + dx))
-        self.y = max(self.longueur, min(600 - self.longueur, self.y + dy))
->>>>>>> 9f44f048a194d4b108ccf7f7774a639f597d8327
+        self.x = max(self.largeur, min(LARGEUR - self.largeur, self.x + dx))
+        self.y = max(self.longueur, min(HAUTEUR - self.longueur, self.y + dy))
+
 
 #---------------------------------------------------------------------------------------------------------------------------
     def dessiner(self, ecran):
@@ -81,17 +78,10 @@ class Environnement:
 <<<<<<< HEAD
 
 #-------------------------------------------------inesssssssssssssssssssssssssssss--meriem-------------------------------------------------------------------------
-    def boucle_principale(self):
-=======
-        robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur, self.robot.largeur * 2, self.robot.longueur * 2)
-        for obstacle in self.obstacles:
-            if robot_rect.colliderect(obstacle):
-                return True
-        return False
-    
+
+    #meriem -----------------------------
     def reinitialiser_robot(self):
-        """Réinitialiser le robot dans l'environnement"""
-        self.robot.reinitialiser()
+     
     
     def boucle_principale(self):
         running = True
@@ -106,10 +96,9 @@ class Environnement:
                         self.robot.vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
                         self.robot.vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
                         self.robot.en_mouvement = True
-                     elif event.key == pygame.K_r: 
-                        self.reinitialiser_robot()
-
+            
             if self.robot.en_mouvement:
+                # Calcul de la nouvelle position
                 new_x = self.robot.x
                 new_y = self.robot.y
                 vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
@@ -122,15 +111,20 @@ class Environnement:
                 dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
                 
                 if not self.detecter_collision(new_x + dx, new_y + dy):
-                    self.robot.x = max(self.robot.largeur, min(800 - self.robot.largeur, new_x + dx))
-                    self.robot.y = max(self.robot.longueur, min(600 - self.robot.longueur, new_y + dy))
+                    self.robot.x = max(self.robot.largeur, min(LARGEUR - self.robot.largeur, new_x + dx))
+                    self.robot.y = max(self.robot.longueur, min(HAUTEUR - self.robot.longueur, new_y + dy))
+                    # Enregistrer la nouvelle position dans la trajectoire
+                    self.trajectoire.append((self.robot.x, self.robot.y))
             
+            # Mise à jour de l'affichage
             self.ecran.fill(BLANC)
             self.dessiner_obstacles()
             self.robot.dessiner(self.ecran)
+            self.dessiner_trajectoire()
             pygame.display.flip()
             self.clock.tick(30)
->>>>>>> 9f44f048a194d4b108ccf7f7774a639f597d8327
+
+        pygame.quit()
 
         #----------------------------------------------------------------------------------------------------------------------------
 
