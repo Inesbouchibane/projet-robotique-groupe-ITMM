@@ -138,7 +138,125 @@ class Environnement:
         self.robot.dessiner(self.ecran)
         pygame.display.flip()
 
+    def boucle_principale(self):
+        running = True
+        while running:
+            # Gestion des événements
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    # En mode manuel, l'utilisateur peut ajuster ou arrêter
+                    if self.mode == "manuel":
+                        if event.key == pygame.K_s:
+                            self.robot.en_mouvement = False
+                        elif event.key == pygame.K_d:
+                            try:
+                                self.robot.vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
+                                self.robot.vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
+                            except ValueError:
+                                print("Veuillez entrer des valeurs numériques valides.")
+                            self.robot.en_mouvement = True
 
+            if self.robot.en_mouvement:
+                # Calcul de la distance détectée par le capteur infrarouge
+                ir_point = self.robot.scan_infrarouge(self.obstacles)
+                distance_ir = math.hypot(ir_point[0] - self.robot.x, ir_point[1] - self.robot.y)
+
+                # Préparation de l'affichage de la distance
+                distance_text = self.font.render(f"Distance: {round(distance_ir,2)} px", True, NOIR)
+               
+                # Selon le mode choisi, le comportement diffère
+                if self.mode == "automatique":
+                    # En mode automatique, si le capteur détecte un obstacle trop proche
+                    # ou si une collision imminente est détectée, on active l'évitement
+                    vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+                    delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
+
+                    # Calcul de la position future (si on ne modifiait pas la trajectoire)
+                    dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+                    dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+                    new_robot_x = self.robot.x + dx
+                    new_robot_y = self.robot.y + dy
+                    collision_obstacle = self.detecter_collision(new_robot_x, new_robot_y)
+                    collision_mur = (new_robot_x <= self.robot.largeur or
+                                     new_robot_x >= LARGEUR - self.robot.largeur or
+                                     new_robot_y <= self.robot.longueur or
+                                     new_robot_y >= HAUTEUR - self.robot.longueur)
+
+                    if distance_ir < IR_SEUIL_ARRET or collision_obstacle or collision_mur:
+                        if not self.avoidance_mode:
+                            # Choix aléatoire de tourner à gauche ou à droite
+                            self.avoidance_direction = random.choice(["left", "right"])
+                            self.avoidance_mode = True
+                        # Appliquer la manœuvre d'évitement : rotation sur place
+                        if self.avoidance_direction == "left":
+                            self.robot.vitesse_gauche = -abs(self.default_vg)
+                            self.robot.vitesse_droite = abs(self.default_vd)
+                        else:
+                            self.robot.vitesse_gauche = abs(self.default_vg)
+                            self.robot.vitesse_droite = -abs(self.default_vd)
+                    else:
+                        # Si aucun obstacle n'est détecté et si l'on était en mode évitement,
+                        # revenir aux vitesses par défaut
+                        if self.avoidance_mode:
+                            self.robot.vitesse_gauche = self.default_vg
+                            self.robot.vitesse_droite = self.default_vd
+                            self.avoidance_mode = False
+                    # Dans tous les cas, calculer la nouvelle position à partir des vitesses actuelles
+                    vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+                    delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
+                    self.robot.angle += delta_angle
+                    self.robot.angle %= 360
+                    dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+                    dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+                    new_robot_x = self.robot.x + dx
+                    new_robot_y = self.robot.y + dy
+                    # Mise à jour de la position
+                    self.robot.x = max(self.robot.largeur, min(LARGEUR - self.robot.largeur, new_robot_x))
+                    self.robot.y = max(self.robot.longueur, min(HAUTEUR - self.robot.longueur, new_robot_y))
+                    self.trajectoire.append((self.robot.x, self.robot.y))
+                else:
+                    # Mode manuel (version actuelle) : si un obstacle est détecté,
+                    # le robot s'arrête et affiche la distance dans la console
+                    vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+                    delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
+                    self.robot.angle += delta_angle
+                    self.robot.angle %= 360
+                    dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+                    dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+                    new_robot_x = self.robot.x + dx
+                    new_robot_y = self.robot.y + dy
+
+                    collision_obstacle = self.detecter_collision(new_robot_x, new_robot_y)
+                    collision_mur = (new_robot_x <= self.robot.largeur or
+                                     new_robot_x >= LARGEUR - self.robot.largeur or
+                                     new_robot_y <= self.robot.longueur or
+                                     new_robot_y >= HAUTEUR - self.robot.longueur)
+                    if distance_ir < IR_SEUIL_ARRET or collision_obstacle or collision_mur:
+                        print(f"Obstacle détecté! Distance = {round(distance_ir,2)} pixels")
+                        self.robot.en_mouvement = False
+                    else:
+                        self.robot.x = new_robot_x
+                        self.robot.y = new_robot_y
+                        self.trajectoire.append((self.robot.x, self.robot.y))
+               
+                # Mise à jour de l'affichage
+                self.ecran.fill(BLANC)
+                self.dessiner_obstacles()
+                self.robot.dessiner(self.ecran)
+                self.dessiner_trajectoire()
+                pygame.draw.line(self.ecran, CYAN, (self.robot.x, self.robot.y), ir_point, 2)
+                pygame.draw.circle(self.ecran, MAGENTA, (int(ir_point[0]), int(ir_point[1])), 5)
+                self.ecran.blit(distance_text, (10, 10))
+           
+            pygame.display.flip()
+            self.clock.tick(30)
+
+        pygame.quit()
+        
     def dessiner_trajectoire(self):   
         if len(self.trajectoire) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
+            
+            
