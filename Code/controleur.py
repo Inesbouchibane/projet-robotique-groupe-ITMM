@@ -1,10 +1,11 @@
 from graphisme import Environnement
 
 class Controleur:
-    def __init__(self, vitesse_gauche, vitesse_droite):
+    def __init__(self, vitesse_gauche, vitesse_droite, mode):
         self.vitesse_gauche = vitesse_gauche
         self.vitesse_droite = vitesse_droite
-        self.env = Environnement(self.vitesse_gauche, self.vitesse_droite)
+        # Le mode est soit "manuel" soit "automatique"
+        self.env = Environnement(self.vitesse_gauche, self.vitesse_droite, mode)
 
     def demarrer_simulation(self):
         self.env.boucle_principale()
@@ -14,6 +15,3 @@ class Controleur:
         self.vitesse_droite = vitesse_droite
         self.env.robot.vitesse_gauche = vitesse_gauche
         self.env.robot.vitesse_droite = vitesse_droite
-   
-    def reinitialiser(self):
-        self.env.reinitialiser_robot()
