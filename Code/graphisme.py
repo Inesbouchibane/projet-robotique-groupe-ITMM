@@ -50,7 +50,8 @@ class Robot:
         #----------------------------------------------------------------------------------------------------------------------------
 
   def reinitialiser(self):
-        """Remet le robot à son état initial."""
+        """Remet le robot à son état initial. Cette fonction place le robot au centre de la zone de simulation avec un angle nul 
+        et remet sa vitesse à zéro."""
         self.x = 400  # Position initiale X
         self.y = 300  # Position initiale Y
         self.vitesse_gauche = 0 
@@ -73,6 +74,9 @@ class Environnement:
 
 #------------------------meriem----------------------------------------------------------------------------------------------------
     def detecter_collision(self, x, y):
+        """ Vérifie si le robot entre en collision avec un obstacle.La fonction crée un rectangle autour du robot à la position 
+donnée et teste s'il intersecte un obstacle."""
+
       robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur, self.robot.largeur * 2, self.robot.longueur * 2)
         for obstacle in self.obstacles:
             if robot_rect.colliderect(obstacle):
