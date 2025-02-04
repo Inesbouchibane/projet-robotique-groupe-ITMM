@@ -109,6 +109,19 @@ class Environnement:
                           pygame.Rect(400, 100, 50, 50)]
         self.trajectoire = []
 
+    
+    def reinitialiser(self):
+        """ Réinitialise l'environnement et le robot """
+        self.robot.x = LARGEUR / 2
+        self.robot.y = HAUTEUR / 2
+        self.robot.angle = 0
+        self.robot.vitesse_gauche = self.default_vg
+        self.robot.vitesse_droite = self.default_vd
+        self.trajectoire = []
+        self.avoidance_mode = False
+        self.avoidance_direction = None
+
+
     def dessiner_obstacles(self):
         for obstacle in self.obstacles:
             pygame.draw.rect(self.ecran, ROUGE, obstacle)
@@ -146,6 +159,9 @@ class Environnement:
                             except ValueError:
                                 print("Veuillez entrer des valeurs numériques valides.")
                             self.robot.en_mouvement = True
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                        self.reinitialiser()
+
 
             if self.robot.en_mouvement:
                 # Calcul de la distance détectée par le capteur infrarouge
@@ -247,3 +263,4 @@ class Environnement:
     def dessiner_trajectoire(self):
         if len(self.trajectoire) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
+
