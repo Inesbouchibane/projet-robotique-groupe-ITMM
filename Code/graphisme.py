@@ -66,10 +66,12 @@ class Environnement:
         self.robot = Robot(LARGEUR / 2, HAUTEUR / 2, vitesse_gauche, vitesse_droite)
         self.obstacles = [pygame.Rect(200, 200, 100, 100), pygame.Rect(400, 100, 50, 50)]
 
-#-----------------------------------meriem-----------------------------------------------------------------------------------------
+#-----------------------------------Takoua-----------------------------------------------------------------------------------------
     def dessiner_obstacles(self): 
+        for obstacle in self.obstacles:
+            pygame.draw.rect(self.ecran, ROUGE, obstacle)
 
-#------------------------takoua----------------------------------------------------------------------------------------------------
+#------------------------meriem----------------------------------------------------------------------------------------------------
     def detecter_collision(self, x, y):
       robot_rect = pygame.Rect(x - self.robot.largeur, y - self.robot.longueur, self.robot.largeur * 2, self.robot.longueur * 2)
         for obstacle in self.obstacles:
@@ -77,7 +79,7 @@ class Environnement:
                 return True
         return False
 
-#-------------------------------------------------inesssssssssssssssssssssssssssss--meriem-------------------------------------------------------------------------
+#-------------------------------------------------ines--meriem-------------------------------------------------------------------------
 
     #meriem -----------------------------
     def reinitialiser_robot(self):
@@ -92,7 +94,33 @@ class Environnement:
 
         pygame.quit()
 
-        #----------------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------Takoua--------------------------------------------------------------------------
+    def mettre_a_jour_position(self):
+        """Met à jour la position du robot en fonction de ses vitesses et détecte les collisions."""
+        if self.robot.en_mouvement:
+            new_x = self.robot.x
+            new_y = self.robot.y
+            vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+            delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
+
+            self.robot.angle += delta_angle
+            self.robot.angle %= 360
+
+            dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+            dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+
+            if not self.detecter_collision(new_x + dx, new_y + dy):
+                self.robot.x = max(self.robot.largeur, min(LARGEUR - self.robot.largeur, new_x + dx))
+                self.robot.y = max(self.robot.longueur, min(HAUTEUR - self.robot.longueur, new_y + dy))
+
+
+    def mettre_a_jour_affichage(self):
+        """Met à jour l'affichage en redessinant les éléments."""
+        self.ecran.fill(BLANC)
+        self.dessiner_obstacles()
+        self.robot.dessiner(self.ecran)
+        pygame.display.flip()
+
 
     def dessiner_trajectoire(self):   
         """ Cette fonction dessine la trah=jecetoire du robot en temps réel"""
