@@ -95,5 +95,6 @@ class Environnement:
         #----------------------------------------------------------------------------------------------------------------------------
 
     def dessiner_trajectoire(self):   
+        """ Cette fonction dessine la trah=jecetoire du robot en temps réel"""
         if len(self.trajectoire) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
