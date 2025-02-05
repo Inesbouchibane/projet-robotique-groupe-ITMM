@@ -112,6 +112,7 @@ class Environnement:
     
     def reinitialiser(self):
         """ Réinitialise l'environnement et le robot """
+        """La fonction place le robot au centre de la zone de simulation avec un angle nul et remet sa vitesse à zéro"""
         self.robot.x = LARGEUR / 2
         self.robot.y = HAUTEUR / 2
         self.robot.angle = 0
