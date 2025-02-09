@@ -14,7 +14,6 @@ class Robot:
         self.angle = (self.angle + delta_angle) % 360
         dx = vitesse_moyenne * math.cos(math.radians(self.angle))
         dy = -vitesse_moyenne * math.sin(math.radians(self.angle))
-
         nouvelle_x = self.x + dx
         nouvelle_y = self.y + dy
 
