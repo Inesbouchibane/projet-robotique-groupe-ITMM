@@ -15,3 +15,10 @@ class Controleur:
         self.vitesse_droite = vitesse_droite
         self.env.robot.vitesse_gauche = vitesse_gauche
         self.env.robot.vitesse_droite = vitesse_droite
+    
+    def verifier_limite_carre(self, x, y, cote):
+        """ Vérifie si le carré reste dans les limites de la fenêtre. """
+        if (x - cote < 0 or x + cote > self.environnement.largeur_fenetre or
+            y - cote < 0 or y + cote > self.environnement.hauteur_fenetre):
+            return False
+        return True
