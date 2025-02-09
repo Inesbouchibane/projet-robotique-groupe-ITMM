@@ -16,9 +16,20 @@ class Controleur:
         self.env.robot.vitesse_gauche = vitesse_gauche
         self.env.robot.vitesse_droite = vitesse_droite
     
-    def verifier_limite_carre(self, x, y, cote):
-        """ Vérifie si le carré reste dans les limites de la fenêtre. """
-        if (x - cote < 0 or x + cote > self.environnement.largeur_fenetre or
-            y - cote < 0 or y + cote > self.environnement.hauteur_fenetre):
-            return False
-        return True
+    def verifier_limite_carre(self):
+        """
+        Vérifie si le robot a parcouru la distance correspondant à un côté du carré.
+        Si oui, on tourne à 90 degrés pour continuer le tracé du carré.
+        """
+        if self.distance_parcourue >= self.longueur_cote:
+            self.distance_parcourue = 0
+            self.etape_carre += 1
+            if self.etape_carre < 4:
+                # Tourner à 90 degrés
+                self.robot.vitesse_gauche = -2
+                self.robot.vitesse_droite = 2
+            else:
+                # Le carré est terminé
+                self.strategie = None
+                self.etape_carre = 0
+                self.robot.en_mouvement = False
