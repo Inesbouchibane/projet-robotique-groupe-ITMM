@@ -261,7 +261,41 @@ class Environnement:
 
         pygame.quit()
 
+<<<<<<< HEAD
     def dessiner_trajectoire(self):
+=======
+#--------------------------------------------------Takoua--------------------------------------------------------------------------
+    def mettre_a_jour_position(self):
+        """Met à jour la position du robot en fonction de ses vitesses et détecte les collisions."""
+        if self.robot.en_mouvement:
+            new_x = self.robot.x
+            new_y = self.robot.y
+            vitesse_moyenne = (self.robot.vitesse_gauche + self.robot.vitesse_droite) / 2
+            delta_angle = (self.robot.vitesse_droite - self.robot.vitesse_gauche) / self.robot.largeur * 10
+
+            self.robot.angle += delta_angle
+            self.robot.angle %= 360
+
+            dx = vitesse_moyenne * math.cos(math.radians(self.robot.angle))
+            dy = -vitesse_moyenne * math.sin(math.radians(self.robot.angle))
+
+            if not self.detecter_collision(new_x + dx, new_y + dy):
+                self.robot.x = max(self.robot.largeur, min(LARGEUR - self.robot.largeur, new_x + dx))
+                self.robot.y = max(self.robot.longueur, min(HAUTEUR - self.robot.longueur, new_y + dy))
+
+
+    def mettre_a_jour_affichage(self):
+        """Met à jour l'affichage en redessinant les éléments."""
+        self.ecran.fill(BLANC)
+        self.dessiner_obstacles()
+        self.robot.dessiner(self.ecran)
+        pygame.display.flip()
+
+
+    def dessiner_trajectoire(self):   
+        """ Cette fonction dessine la trajectoire du robot en temps 
+réel"""
+>>>>>>> 8b62f39 (Ajout du fichier semaine4.md dans NosTaches pour rédiger le rendu de la semaine courante)
         if len(self.trajectoire) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
 
