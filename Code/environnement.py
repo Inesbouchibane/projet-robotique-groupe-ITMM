@@ -17,4 +17,9 @@ class Environnement:
         self.obstacles = [(200, 200, 100, 100), (400, 100, 50,
 50)]
         self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
+    def detecter_collision(self, x, y):
+        for ox, oy, ow, oh in self.obstacles:
+            if ox < x < ox + ow and oy < y < oy + oh:
+                return True
+        return False
 
