@@ -261,10 +261,6 @@ class Environnement:
 
         pygame.quit()
 
-<<<<<<< HEAD
-    def dessiner_trajectoire(self):
-=======
-#--------------------------------------------------Takoua--------------------------------------------------------------------------
     def mettre_a_jour_position(self):
         """Met à jour la position du robot en fonction de ses vitesses et détecte les collisions."""
         if self.robot.en_mouvement:
@@ -293,9 +289,7 @@ class Environnement:
 
 
     def dessiner_trajectoire(self):   
-        """ Cette fonction dessine la trajectoire du robot en temps 
-réel"""
->>>>>>> 8b62f39 (Ajout du fichier semaine4.md dans NosTaches pour rédiger le rendu de la semaine courante)
+        """ Cette fonction dessine la trajectoire du robot en temps réel"""
         if len(self.trajectoire) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajectoire, 2)
 
