@@ -14,3 +14,12 @@ class TestControleur(unittest.TestCase):
     def test_demarrer_simulation(self):
         self.controleur.demarrer_simulation()
         self.env_mock.boucle_principale.assert_called_once()
+    
+
+
+    def test_ajuster_vitesse(self):
+        self.controleur.ajuster_vitesse(3, 4)
+        self.assertEqual(self.controleur.vitesse_gauche, 3)
+        self.assertEqual(self.controleur.vitesse_droite, 4)
+        self.assertEqual(self.env_mock.robot.vitesse_gauche, 3)
+        self.assertEqual(self.env_mock.robot.vitesse_droite, 4)
