@@ -50,7 +50,7 @@ class Environnement:
                         self.avoidance_mode = False
             
             self.robot.deplacer()
-            self.affichage.mettre_a_jour(self.robot, ir_point, distance_ir)
+            self.affichage.mettre_a_jour(self.robot, ir_point, distance_ir, self.mode)
             pygame.display.flip()
             pygame.time.delay(30)
     def tracer_carre(self, cote):
