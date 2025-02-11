@@ -28,3 +28,5 @@ def mettre_a_jour(self, robot, ir_point, distance_ir):
         pygame.display.flip()
         self.clock.tick(30)
 
+ def reset_trajet(self):
+        self.trajet = []
