@@ -7,7 +7,7 @@ class Robot:
         self.vitesse_droite = vitesse_droite
         self.angle = 0
         self.largeur, self.longueur = 20, 40
-        
+
     def deplacer(self):
         vitesse_moyenne = (self.vitesse_gauche + self.vitesse_droite) / 2
         delta_angle = (self.vitesse_droite - self.vitesse_gauche) / self.largeur * 10
@@ -16,16 +16,17 @@ class Robot:
         dy = -vitesse_moyenne * math.sin(math.radians(self.angle))
         nouvelle_x = self.x + dx
         nouvelle_y = self.y + dy
-
         if 0 < nouvelle_x < 800 and 0 < nouvelle_y < 600:
-self.x = nouvelle_x
+            self.x = nouvelle_x
             self.y = nouvelle_y
-    
+
     def scan_infrarouge(self, obstacles, max_distance):
         angle_rad = math.radians(self.angle)
         for d in range(0, int(max_distance), 5):
-            x_point, y_point = self.x + d * math.cos(angle_rad), self.y - d * math.sin(angle_rad)
+            x_point = self.x + d * math.cos(angle_rad)
+            y_point = self.y - d * math.sin(angle_rad)
             for ox, oy, ow, oh in obstacles:
                 if ox < x_point < ox + ow and oy < y_point < oy + oh:
                     return (x_point, y_point)
         return (self.x + max_distance * math.cos(angle_rad), self.y - max_distance * math.sin(angle_rad))
+

@@ -14,9 +14,13 @@ class Environnement:
         self.mode = mode
         self.avoidance_mode = False
         self.avoidance_direction = None
-        self.obstacles = [(200, 200, 100, 100), (400, 100, 50,
-50)]
+        self.obstacles = [(200, 200, 100, 100), (400, 100, 50,50)]
         self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
+        self.avoidance_counter = 0
+        # Stocker les vitesses par défaut pour l'évitement et le mode carré
+        self.default_vg = vitesse_gauche
+        self.default_vd = vitesse_droite
+
     def detecter_collision(self, x, y):
         for ox, oy, ow, oh in self.obstacles:
             if ox < x < ox + ow and oy < y < oy + oh:
@@ -24,88 +28,99 @@ class Environnement:
         return False
 
     def boucle_principale(self):
+        if self.mode == "carré":
+            self.dessiner_carre()
+            return
+
+        # Modes manuel et automatique
+        running = True
+        while running:
+            # Gestion des événements
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+                elif event.type == pygame.KEYDOWN:
+                    if self.mode == "manuel":
+                        if event.key == pygame.K_s:
+                            self.robot.vitesse_gauche = 0
+                            self.robot.vitesse_droite = 0
+                            print("Robot arrêté")
+                        elif event.key == pygame.K_d:
+                            # Demande les nouvelles vitesses sans réinitialiser la position ni la trajectoire
+                            try:
+                                new_vg = float(input("Entrez la nouvelle vitesse de la roue gauche : "))
+                                new_vd = float(input("Entrez la nouvelle vitesse de la roue droite : "))
+                            except ValueError:
+                                print("Valeurs invalides. Utilisation des vitesses par défaut (2).")
+                                new_vg, new_vd = 2, 2
+                            self.robot.vitesse_gauche = new_vg
+                            self.robot.vitesse_droite = new_vd
+                            self.default_vg = new_vg
+                            self.default_vd = new_vd
+                            print("Robot démarré avec nouvelles vitesses")
+                        elif event.key == pygame.K_r:
+                            self.robot.x, self.robot.y = LARGEUR / 2, HAUTEUR / 2
+                            self.affichage.reset_trajet()
+                            print("Robot réinitialisé")
+
+            old_x, old_y = self.robot.x, self.robot.y
+            self.robot.deplacer()
+            if self.detecter_collision(self.robot.x, self.robot.y):
+                self.robot.x, self.robot.y = old_x, old_y
+
+            ir_point = self.robot.scan_infrarouge(self.obstacles, IR_MAX_DISTANCE)
+            distance_ir = math.hypot(ir_point[0] - self.robot.x, ir_point[1] - self.robot.y)
+
+            if self.mode == "automatique":
+                if distance_ir < IR_SEUIL_ARRET or self.detecter_collision(self.robot.x, self.robot.y):
+                    if not self.avoidance_mode:
+                        self.avoidance_direction = random.choice(["left", "right"])
+                        self.avoidance_mode = True
+                        self.avoidance_counter = 30  # nombre de cycles pour tourner
+                    else:
+                        if self.avoidance_counter > 0:
+                            self.avoidance_counter -= 1
+                    if self.avoidance_direction == "left":
+                        self.robot.vitesse_gauche = -abs(self.default_vg)
+                        self.robot.vitesse_droite = abs(self.default_vd)
+                    else:
+                        self.robot.vitesse_gauche = abs(self.default_vg)
+                        self.robot.vitesse_droite = -abs(self.default_vd)
+                else:
+                    if self.avoidance_mode and self.avoidance_counter == 0:
+                        self.avoidance_mode = False
+                        self.robot.vitesse_gauche = self.default_vg
+                        self.robot.vitesse_droite = self.default_vd
+
+            self.affichage.mettre_a_jour(self.robot, ir_point, distance_ir)
+            pygame.display.flip()
+            pygame.time.delay(30)
+
+    def dessiner_carre(self):
+        # Constants for square drawing mode
+        SEGMENT_LENGTH = 200   # longueur de chaque segment
+        TURN_CYCLES = 30       # nombre de cycles pour tourner 90
+        
+        # Initialisation des variables de l'état
+        if not hasattr(self, 'square_initialized'):
+            self.square_state = 'move'      # état : 'move' ou 'turn'
+            self.segment_travelled = 0
+            self.current_segment = 0
+            self.turn_cycles = 0
+            self.square_initialized = True
+            # On s'assure que les vitesses sont identiques pour aller tout droit
+            self.robot.vitesse_gauche = self.default_vg
+            self.robot.vitesse_droite = self.default_vd
+            # Position de départ du segment
+            self.segment_start_x = self.robot.x
+            self.segment_start_y = self.robot.y
+
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
 
-            ir_point = self.robot.scan_infrarouge(self.obstacles, IR_MAX_DISTANCE)
-            distance_ir = math.hypot(ir_point[0] - self.robot.x, ir_point[1] - self.robot.y)
-            collision = self.detecter_collision(self.robot.x, self.robot.y)
-
-            if self.mode == "automatique":
-                if distance_ir < IR_SEUIL_ARRET or collision:
-                    if not self.avoidance_mode:
-                        self.avoidance_direction = random.choice(["left", "right"])
-                        self.avoidance_mode = True
-                    if self.avoidance_direction == "left":
-                        self.robot.vitesse_gauche = -abs(self.robot.vitesse_gauche)
-                        self.robot.vitesse_droite = abs(self.robot.vitesse_droite)
-                    else:
-                        self.robot.vitesse_gauche = abs(self.robot.vitesse_gauche)
-                        self.robot.vitesse_droite = -abs(self.robot.vitesse_droite)
-                else:
-                    if self.avoidance_mode:
-                        self.avoidance_mode = False
-            
-            self.robot.deplacer()
-            self.affichage.mettre_a_jour(self.robot, ir_point, distance_ir, self.mode)
-            pygame.display.flip()
-            pygame.time.delay(30)
-    def tracer_carre(self, cote):
-        """
-        Fait tracer un carré de côté donné par le robot.
-        """
-        if not self.verifier_limite_carre(cote):
-            print("Impossible de tracer le carré : obstacle détecté.")
-            return
-    
-        vitesse = 1.0  # Vitesse constante
-        
-        for _ in range(4):
-            # Avancer d'un côté du carré
-            debut_x, debut_y = self.robot.x, self.robot.y
-            distance_parcourue = 0
-            
-            while distance_parcourue < cote:
-                # Calculer la distance restante à parcourir
-                distance_a_parcourir = min(vitesse, cote - 
-distance_parcourue)
-                
-                # Mettre à jour la position du robot
-                dx = distance_a_parcourir * 
-math.cos(math.radians(self.robot.angle))
-                dy = -distance_a_parcourir * 
-math.sin(math.radians(self.robot.angle))
-                
-                nouvelle_x = self.robot.x + dx
-                nouvelle_y = self.robot.y + dy
-                
-                # Vérifier si la nouvelle position est valide (pas de 
-collision)
-                if not self.environnement.detecter_collision(nouvelle_x, 
-nouvelle_y):
-                    self.robot.x = nouvelle_x
-                    self.robot.y = nouvelle_y
-                    self.environnement.trajectoire.append((self.robot.x, 
-self.robot.y))
-                    distance_parcourue += distance_a_parcourir
-                else:
-                    print("Obstacle détecté pendant le tracé du carré. 
-Arrêt du tracé.")
-                    return
-                    
-                # Mettre à jour l'affichage
-                ir_point = 
-self.robot.scan_infrarouge(self.environnement.obstacles, IR_MAX_DISTANCE)
-                distance_ir = math.hypot(ir_point[0] - self.robot.x, 
-ir_point[1] - self.robot.y)
-                self.environnement.affichage.mettre_a_jour(self.robot, 
-ir_point, distance_ir, "manuel", self.environnement.trajectoire)
-                pygame.time.delay(30)
-            
-            # Rotation de 90 degrés
-            self.robot.angle = (self.robot.angle + 90) % 360
-
+            old_x, old_y = self.robot.x, self.robot.y
 
