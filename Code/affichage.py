@@ -30,3 +30,9 @@ def mettre_a_jour(self, robot, ir_point, distance_ir):
 
  def reset_trajet(self):
         self.trajet = []
+        
+ def calculer_points_robot(self, robot):
+        cos_a, sin_a = math.cos(math.radians(robot.angle)), math.sin(math.radians(robot.angle))
+        return [
+            (robot.x + cos_a * robot.longueur / 2 - sin_a * robot.largeur / 2,
+             robot.y - sin_a * robot.longueur / 2 - cos_a * robot.largeur / 2),
