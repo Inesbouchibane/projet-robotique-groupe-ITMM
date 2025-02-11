@@ -16,3 +16,6 @@ class Affichage:
         # Dessiner les obstacles
         for ox, oy, ow, oh in self.obstacles:
             pygame.draw.rect(self.ecran, (255, 0, 0), (ox, oy, ow, oh))
+
+        # Dessiner le point détecté par le capteur infrarouge
+        pygame.draw.circle(self.ecran, (0, 255, 0), (int(ir_point[0]), int(ir_point[1])), 5)
