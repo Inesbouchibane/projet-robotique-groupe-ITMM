@@ -15,3 +15,11 @@ class TestEnvironnement(unittest.TestCase):
         self.assertEqual(self.env.mode, "automatique")
         self.assertIsInstance(self.env.robot, Robot)
         self.assertEqual(len(self.env.obstacles), 2
+
+
+    def test_detecter_collision(self):
+        """Test la détection de collision avec un obstacle"""
+        # Coordonnées dans un obstacle (adaptées à votre logique)
+        self.assertTrue(self.env.detecter_collision(250, 250))
+        # Coordonnées hors des obstacles
+        self.assertFalse(self.env.detecter_collision(50, 50))
