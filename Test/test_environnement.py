@@ -1,16 +1,4 @@
 
-1 sur 3 921
-(aucun objet)
-Boîte de réception
-
-Mouna Bahamid <mounabahamid10@gmail.com>
-Pièces jointes
-20:17 (il y a 22 minutes)
-À moi
-
-
- 3 pièces jointes
-  • Analyse effectuée par Gmail
 import unittest
 from environnement import Environnement
 from robot import Robot
