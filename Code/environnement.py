@@ -142,3 +142,27 @@ class Environnement:
                 if self.turn_cycles <= 0:
                     # Fin de la rotation, repasser en mode déplacement
 
+
+                    self.robot.vitesse_gauche = self.default_vg
+                    self.robot.vitesse_droite = self.default_vd
+                    self.square_state = 'move'
+                    self.current_segment += 1
+                    self.segment_start_x = self.robot.x
+                    self.segment_start_y = self.robot.y
+                    self.segment_travelled = 0
+                    if self.current_segment >= 4:
+                        print("Carré terminé")
+                        running = False
+
+            if self.detecter_collision(self.robot.x, self.robot.y):
+                print("Obstacle détecté, arrêt du carré")
+                running = False
+
+            ir_point = self.robot.scan_infrarouge(self.obstacles, IR_MAX_DISTANCE)
+            distance_ir = math.hypot(ir_point[0] - self.robot.x, ir_point[1] - self.robot.y)
+            self.affichage.mettre_a_jour(self.robot, ir_point, distance_ir)
+            pygame.display.flip()
+            pygame.time.delay(30)
+        print("Fin du mode carré")
+
+
