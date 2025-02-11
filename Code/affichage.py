@@ -36,3 +36,10 @@ def mettre_a_jour(self, robot, ir_point, distance_ir):
         return [
             (robot.x + cos_a * robot.longueur / 2 - sin_a * robot.largeur / 2,
              robot.y - sin_a * robot.longueur / 2 - cos_a * robot.largeur / 2),
+            (robot.x - cos_a * robot.longueur / 2 - sin_a * robot.largeur / 2,
+             robot.y + sin_a * robot.longueur / 2 - cos_a * robot.largeur / 2),
+            (robot.x - cos_a * robot.longueur / 2 + sin_a * robot.largeur / 2,
+             robot.y + sin_a * robot.longueur / 2 + cos_a * robot.largeur / 2),
+            (robot.x + cos_a * robot.longueur / 2 + sin_a * robot.largeur / 2,
+             robot.y - sin_a * robot.longueur / 2 + cos_a * robot.largeur / 2)
+        ]
