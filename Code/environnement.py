@@ -124,3 +124,21 @@ class Environnement:
 
             old_x, old_y = self.robot.x, self.robot.y
 
+            if self.square_state == 'move':
+                self.robot.deplacer()
+                # Calcul de la distance parcourue sur le segment courant
+                dx = self.robot.x - self.segment_start_x
+                dy = self.robot.y - self.segment_start_y
+                self.segment_travelled = (dx**2 + dy**2) ** 0.5
+                if self.segment_travelled >= SEGMENT_LENGTH:
+                    self.square_state = 'turn'
+                    self.turn_cycles = TURN_CYCLES
+            elif self.square_state == 'turn':
+                # Rotation sur place pour tourner 90°
+                self.robot.vitesse_gauche = -abs(self.default_vg)
+                self.robot.vitesse_droite = abs(self.default_vd)
+                self.robot.deplacer()
+                self.turn_cycles -= 1
+                if self.turn_cycles <= 0:
+                    # Fin de la rotation, repasser en mode déplacement
+
