@@ -20,6 +20,10 @@ class Affichage:
         # Dessiner le point détecté par le capteur infrarouge
         pygame.draw.circle(self.ecran, (0, 255, 0), (int(ir_point[0]), int(ir_point[1])), 5)
 
+	 # Dessiner la trajectoire du robot
+        if len(trajectoire) > 1:
+            pygame.draw.lines(self.ecran, (0, 0, 0), False, trajectoire, 2)  # Dessiner les lignes de la trajectoire
+
         # Affichage des informations (mode et vitesse des roues)
         texte = f"Mode: {mode} | Vitesse Gauche: {robot.vitesse_gauche} | Vitesse Droite: {robot.vitesse_droite}"
         texte_surface = self.font.render(texte, True, (0, 0, 0))
