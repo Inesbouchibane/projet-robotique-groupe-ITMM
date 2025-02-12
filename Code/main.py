@@ -1,9 +1,8 @@
 from controleur import Controleur
 
 def main():
-   
-        vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
-        vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
+    vitesse_gauche = float(input("Entrez la vitesse de la roue gauche : "))
+    vitesse_droite = float(input("Entrez la vitesse de la roue droite : "))
 
     mode = ""
     while mode.lower() not in ["a", "m", "c"]:
@@ -20,4 +19,5 @@ def main():
     controleur.demarrer_simulation()
 
 if __name__ == "__main__":
-    main()s
+    main()
+
