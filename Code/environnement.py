@@ -1,3 +1,4 @@
+
 from robot import Robot
 from affichage import Affichage
 import pygame
@@ -10,36 +11,47 @@ LARGEUR, HAUTEUR = 800, 600
 
 class Environnement:
     def __init__(self, vitesse_gauche, vitesse_droite, mode):
+        """
+        Initialise l'environnement de simulation.
+        :param vitesse_gauche: Vitesse de la roue gauche.
+        :param vitesse_droite: Vitesse de la roue droite.
+        :param mode: Mode de simulation (automatique, manuel, carré).
+        """
         self.robot = Robot(LARGEUR / 2, HAUTEUR / 2, vitesse_gauche, vitesse_droite)
         self.mode = mode
+        self.obstacles = [(200, 200, 100, 100), (400, 100, 50, 50)]
+        self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
         self.avoidance_mode = False
         self.avoidance_direction = None
-        self.obstacles = [(200, 200, 100, 100), (400, 100, 50,50)]
-        self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
         self.avoidance_counter = 0
-        # Stocker les vitesses par défaut pour l'évitement et le mode carré
         self.default_vg = vitesse_gauche
         self.default_vd = vitesse_droite
 
     def detecter_collision(self, x, y):
+        """
+        Détecte une collision entre le robot et un obstacle.
+        :param x: Position x du robot.
+        :param y: Position y du robot.
+        :return: True si collision, False sinon.
+        """
         for ox, oy, ow, oh in self.obstacles:
             if ox < x < ox + ow and oy < y < oy + oh:
                 return True
         return False
 
     def boucle_principale(self):
+        """
+        Boucle principale de la simulation.
+        """
         if self.mode == "carré":
             self.dessiner_carre()
             return
 
-        # Modes manuel et automatique
         running = True
         while running:
-            # Gestion des événements
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
                 elif event.type == pygame.KEYDOWN:
                     if self.mode == "manuel":
                         if event.key == pygame.K_s:
@@ -47,7 +59,6 @@ class Environnement:
                             self.robot.vitesse_droite = 0
                             print("Robot arrêté")
                         elif event.key == pygame.K_d:
-                            # Demande les nouvelles vitesses sans réinitialiser la position ni la trajectoire
                             try:
                                 new_vg = float(input("Entrez la nouvelle vitesse de la roue gauche : "))
                                 new_vd = float(input("Entrez la nouvelle vitesse de la roue droite : "))
@@ -77,7 +88,7 @@ class Environnement:
                     if not self.avoidance_mode:
                         self.avoidance_direction = random.choice(["left", "right"])
                         self.avoidance_mode = True
-                        self.avoidance_counter = 30  # nombre de cycles pour tourner
+                        self.avoidance_counter = 30
                     else:
                         if self.avoidance_counter > 0:
                             self.avoidance_counter -= 1
@@ -98,21 +109,20 @@ class Environnement:
             pygame.time.delay(30)
 
     def dessiner_carre(self):
-        # Constants for square drawing mode
-        SEGMENT_LENGTH = 200   # longueur de chaque segment
-        TURN_CYCLES = 30       # nombre de cycles pour tourner 90
-        
-        # Initialisation des variables de l'état
+        """
+        Fait dessiner un carré par le robot.
+        """
+        SEGMENT_LENGTH = 200
+        TURN_CYCLES = 30
+
         if not hasattr(self, 'square_initialized'):
-            self.square_state = 'move'      # état : 'move' ou 'turn'
+            self.square_state = 'move'
             self.segment_travelled = 0
             self.current_segment = 0
             self.turn_cycles = 0
             self.square_initialized = True
-            # On s'assure que les vitesses sont identiques pour aller tout droit
             self.robot.vitesse_gauche = self.default_vg
             self.robot.vitesse_droite = self.default_vd
-            # Position de départ du segment
             self.segment_start_x = self.robot.x
             self.segment_start_y = self.robot.y
 
@@ -126,7 +136,6 @@ class Environnement:
 
             if self.square_state == 'move':
                 self.robot.deplacer()
-                # Calcul de la distance parcourue sur le segment courant
                 dx = self.robot.x - self.segment_start_x
                 dy = self.robot.y - self.segment_start_y
                 self.segment_travelled = (dx**2 + dy**2) ** 0.5
@@ -134,15 +143,11 @@ class Environnement:
                     self.square_state = 'turn'
                     self.turn_cycles = TURN_CYCLES
             elif self.square_state == 'turn':
-                # Rotation sur place pour tourner 90°
                 self.robot.vitesse_gauche = -abs(self.default_vg)
                 self.robot.vitesse_droite = abs(self.default_vd)
                 self.robot.deplacer()
                 self.turn_cycles -= 1
                 if self.turn_cycles <= 0:
-                    # Fin de la rotation, repasser en mode déplacement
-
-
                     self.robot.vitesse_gauche = self.default_vg
                     self.robot.vitesse_droite = self.default_vd
                     self.square_state = 'move'
@@ -164,5 +169,4 @@ class Environnement:
             pygame.display.flip()
             pygame.time.delay(30)
         print("Fin du mode carré")
-
 
