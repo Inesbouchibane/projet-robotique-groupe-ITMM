@@ -18,6 +18,22 @@ class Affichage:
         self.font = pygame.font.SysFont(None, 30)
         self.obstacles = obstacles
         self.trajet = []
+    def handle_events(self):
+        """
+        Gère les événements Pygame et renvoie une action.
+        :return: Une chaîne ("quit", "stop", "change", "reset") ou None.
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "quit"
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    return "stop"
+                elif event.key == pygame.K_d:
+                    return "change"
+                elif event.key == pygame.K_r:
+                    return "reset"
+        return None
 
     def mettre_a_jour(self, robot, ir_point, distance_ir):
         """
@@ -31,7 +47,7 @@ class Affichage:
         if len(self.trajet) > 1:
             pygame.draw.lines(self.ecran, NOIR, False, self.trajet, 2)
 
-        for ox, oy, ow, oh in self.obstacles:
+        for( ox, oy, ow, oh) in self.obstacles:
             pygame.draw.rect(self.ecran, ROUGE, (ox, oy, ow, oh))
         
         pygame.draw.polygon(self.ecran, BLEU, self.calculer_points_robot(robot))
@@ -68,3 +84,4 @@ class Affichage:
              robot.y - sin_a * robot.longueur / 2 + cos_a * robot.largeur / 2)
         ]
 
+    
