@@ -32,4 +32,8 @@ class TestAffichage(unittest.TestCase):
         # Mock des méthodes Pygame
         self.affichage.ecran = MagicMock()
         self.affichage.clock = MagicMock()
-    
+   def test_handle_events_change(self):
+        """Test de la gestion de l'événement 'change'."""
+        pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_d))
+        action = self.affichage.handle_events()
+        self.assertEqual(action, "change")
