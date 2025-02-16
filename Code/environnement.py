@@ -20,7 +20,11 @@ class Environnement:
         self.robot = Robot(LARGEUR / 2, HAUTEUR / 2, vitesse_gauche, vitesse_droite)
         self.mode = mode
         self.obstacles = [(200, 200, 100, 100), (400, 100, 50, 50)]
-        self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
+        self.affichage_active = affichage
+        if self.affichage_active:
+           self.affichage = Affichage(LARGEUR, HAUTEUR, self.obstacles)
+        else:
+            self.affichage = None
         self.avoidance_mode = False
         self.avoidance_direction = None
         self.avoidance_counter = 0
